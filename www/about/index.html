@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description"
+          content="Главная страница сайта Tasty-cake, где можно заказать: пирожные, пирожки, пиццу, шашлык с доставкой в городе Краснодар">
+    <meta name="keywords" content="пирожные, пирожки, пицца, шашлык, мангал, рис, лапша, дуйканы, fusion-food, Краснодар">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="http://tasty-cake.ru/favicon.ico">
+    <title>
+        Tasty Cake
+    </title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class='container'>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="..">
+                <img src="../img/logo-01.png" alt="Tasty Cake" class="fill"/>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#">
+                        <table id="phone" class="nav-info">
+                            <tr>
+                                <td>
+                                    <i class="glyphicon glyphicon-earphone nav-icon"></i>
+                                </td>
+                                <td nowrap>
+                                    <div>
+                                        <p class="nav-text">8-999-888-7766</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <table id="schedule" class="nav-info">
+                            <tr>
+                                <td>
+                                    <i class="glyphicon glyphicon-time nav-icon"></i>
+                                </td>
+                                <td nowrap>
+                                    <p class="nav-text">Прием заказов</p>
+                                    <p class="nav-details">с 11:00 до 23:00</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <table id="order_info" class="row">
+                            <tr>
+                                <td>
+                                    <i class="glyphicon glyphicon-ruble nav-icon"></i>
+                                </td>
+                                <td nowrap>
+                                    <div class="nav-info">
+                                        <p class="nav-text">Заказ</p>
+                                        <p class="nav-details">
+                                            <a href="../about-pay">Оплата</a>
+                                            <span>/</span>
+                                            <a href="../conditions">Доставка</a>
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="../about">
+                        <table>
+                            <tr>
+                                <td>
+                                    <i class="glyphicon glyphicon-file nav-icon"></i>
+                                </td>
+                                <td nowrap>
+                                    <div class="nav-info">
+                                        <p class="nav-text">О компании</p>
+                                        <p class="nav-details">&nbsp;</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="../cart">
+                        <table id="top_cart">
+                            <tr>
+                                <td>
+                                    <i class="glyphicon glyphicon-shopping-cart nav-icon"></i>
+                                </td>
+                                <td nowrap>
+                                    <div class="nav-info">
+                                        <p class="nav-text">Корзина</p>
+                                        <p id="cart_total" class="nav-details">0 р.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </a>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div id="content" class="container">
+    <p class="page-name">О нас</p>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="info">
+                <p>Адрес: г. Саратов, ул. Московская, 88</p>
+                <div id="map" style="width: 600px; height: 400px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer container">
+    <div class="row">
+        <div class="col-lg-12 text-centered">
+            <span>&copy;Tasty Cake&nbsp;Саратов 2016</span>
+        </div>
+    </div>
+</footer>
+
+<script src="../script/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="api.js"></script>
+<script src="../script/common-api.js"></script>
+<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+<script type="text/javascript">
+    ymaps.ready(init);
+    var myMap;
+
+    function init() {
+        myMap = new ymaps.Map("map", {
+            center: [51.535041, 46.030547],
+            zoom: 17
+        });
+
+        myPlacemark = new ymaps.Placemark([51.535041, 46.030547], {
+            hintContent: 'Tasty Cake!',
+            balloonContent: 'Расположение кондитерской "Вкусный торт"'
+        });
+
+        myMap.geoObjects.add(myPlacemark);
+    }
+    ;
+</script>
+</body>
+</html>
