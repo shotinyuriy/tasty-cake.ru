@@ -3,28 +3,12 @@
 		url: "./core/c-category.php",
 		data: {},
 		success: function( data ) {
-
 			$( "#categories_menu" ).html( data );
 
-
-			$( "div.menu-category" ).hover ( function( event ) {
-				$( this ).find( "h6" ).css("color", "#E40108");
-
+			$( "div.menu-category" ).click ( function ( event ) {
 				var categoryId = $( this );
 				categoryId = categoryId ? categoryId[0].id : undefined;
 				if( categoryId ) {
-					window.categoryId = categoryId;
-				}
-			}, function( event ) {
-				$( this ).find( "h6" ).css("color", "#FFF");
-			});
-
-
-			$( "div.menu-category" ).click ( function ( event ) {
-
-				var categoryId = window.categoryId;
-				if( categoryId ) {
-
 					$.ajax({
 							type: "GET",
 							url: "./core/set-current-category.php",

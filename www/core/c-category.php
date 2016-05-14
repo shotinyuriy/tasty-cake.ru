@@ -13,6 +13,10 @@
 			save();
 		} elseif ( $method == 'edit' ) {
 			edit();
+		} elseif ( $method == 'delete' ) {
+			delete();
+		} elseif ( $method == 'cms' ) {
+			cms();
 		}
 	} else {
 			
@@ -89,6 +93,21 @@
 		CategoryView::edit_form( $category );
 	}
 	
+	function delete() {
+		
+	}
+	
+	function cms() {
+		if ($_SESSION["role"] == User::ADMINISTRATOR) {
+		    $categories = Categories::get_all_categories();
+		    $current_category_id = "";
+		
+		    if (isset($_SESSION["category_id"])) {
+		        $current_category_id = StringUtils::convert($_SESSION["category_id"], 'string');
+		    }
+		}
+		CategoryView::cms_form($categories, $current_category_id, true);
+	}
 	
 	function get_category_id() {
 		$category_id = null;

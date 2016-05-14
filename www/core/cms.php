@@ -11,6 +11,7 @@ require_once("v-category.php");
     <link rel="icon" type="image/vnd.microsoft.icon" href="http://tasty-cake.ru/favicon.ico">
 </head>
 <body>
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -25,6 +26,24 @@ require_once("v-category.php");
             </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+        	<ul class="nav navbar-nav navbar-left">
+                <? if ($_SESSION["role"] == User::ADMINISTRATOR) { ?>
+                    <li>
+                    	<a class='content-link' href='../core/c-category.php?method=cms&view=list&cms=true'>
+                    		Категории
+                    	</a>
+                    </li>
+                    
+                <? } ?>
+                <li>
+                	<a class='content-link' href='../core/c-order.php?method=filterForm'>Заказы</a>
+                </li>
+                <? if ($_SESSION["role"] == User::ADMINISTRATOR) { ?>
+                <li>
+                	<a class='content-link' href='../core/c-news.php?method=newsList'>Новости</a>
+                </li>
+                <? } ?>
+			</ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a class='edit' id="userinfo" href="../core/c-user.php?method=edit&login=<?= $_SESSION["login"] ?>">
@@ -63,40 +82,8 @@ require_once("v-category.php");
             </ul>
         </div><!--/.nav-collapse -->
 </nav>
-<?php
-if ($_SESSION["role"] == User::ADMINISTRATOR) {
-    $categories = Categories::get_all_categories();
-    $current_category_id = "";
 
-    if (isset($_SESSION["category_id"])) {
-        $current_category_id = StringUtils::convert($_SESSION["category_id"], 'string');
-    }
-}
-?>
-<div class='container-fluid'>
-    <div class='row'>
-        <div class='col-lg-3'>
-            <div class='leftmenu'>
-                <? if ($_SESSION["role"] == User::ADMINISTRATOR) { ?>
-                <ul>
-                    <li class='menu-category'>Категории:</li>
-                    <li id='categories'>
-                        <? CategoryView::category_to_li($categories, $current_category_id, true); ?>
-                    </li>
-                </ul>
-                <? } ?>
-                <a class='menu-category' href='../core/c-order.php?method=filterForm'>Заказы</a>
-                <? if ($_SESSION["role"] == User::ADMINISTRATOR) { ?>
-                <a class='menu-category' href='../core/c-news.php?method=newsList'>Новости</a>
-                <? } ?>
-
-            </div>
-        </div>
-        <div class='col-lg-9'>
-            <div id='menu'>
-            </div>
-        </div>
-    </div>
+<div class='container-fluid' id='cms_content'>
 </div>
 
 <?

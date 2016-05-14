@@ -145,6 +145,7 @@ body {
 	position: absolute;
 	top: 50%;
 	transform: translate(0, -50%);
+	max-height: 375px;
 }
 
 .carousel-caption h1 {
@@ -377,14 +378,11 @@ li.menu-category > .edit {
 li.menu-category-selected > .edit {
 	margin-left: 7px;
 	margin-bottom: 7px;
-	display: block;
-	text-decoration: underline;
-	background: #000;
-	color: #fff;
-	width: 100%;
-	border-bottom: 1px solid #fff;
-	border-left: 1px solid #fff;
-	border-right: 1px solid #fff;
+}
+
+li.menu-category-selected > .edit {
+	margin-left: 7px;
+	margin-bottom: 7px;
 }
 
 a.menu-category,

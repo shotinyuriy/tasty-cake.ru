@@ -63,62 +63,42 @@ function addFileChangeListener() {
 	} );
 };
 
-function addSubmitValidationListener() {
-	$( "#add_good_form" ).submit( function( e ) {
-		e.preventDefault();
-		
-		var $form = $( this );
-		var error = "";
-		
-		if( $form.length == 1 ) {
-			var name = $form.find( "input[name='name']" ).val();
-			if( !name || name.trim() == '' ) {
-				error += "Введите название товара!<br>";
-			}
-			
-			if( error.length > 0 ) {
-				var newDiv = $( "#validation_errors" )[ 0 ];
-				if( !newDiv ) {
-					newDiv = document.createElement( 'div' );
-					newDiv.id = 'validation_errors';
-					newDiv.className = 'error';
-				}
+function ajaxForm(form, callback) {
+	var formData = new FormData(form[0]);
+	var url = form[0].action;
+	console.log("URL = ", url);  
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url);
+
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+			if(xhr.status == 200) {
+				data = xhr.responseText;
 				
-				newDiv.innerHTML = '<p>'+error+'</p>';
-				$form[ 0 ].appendChild( newDiv );
-			} else {
-				$form.unbind();
-				$form.submit();
+				if(data) {
+					if(typeof callback === 'function') callback();
+				} else {
+					console.log(" ERROR! ");
+				}
 			}
 		}
-	} );
+	};
 	
-	$( "#add_category_form" ).submit( function( e ) {
+	xhr.send(formData);	
+}
+
+function addSubmitValidationListener() {
+	$( ".edit-form" ).submit( function( e ) {
 		e.preventDefault();
 		
 		var $form = $( this );
-		var error = "";
 		
 		if( $form.length == 1 ) {
-			var name = $form.find( "input[name='name']" ).val();
-			if( !name || name.trim() == '' ) {
-				error += "Введите название категории!<br>";
-			}
-			
-			if( error.length > 0 ) {
-				var newDiv = $( "#validation_errors" )[ 0 ];
-				if( !newDiv ) {
-					newDiv = document.createElement( 'div' );
-					newDiv.id = 'validation_errors';
-					newDiv.className = 'error';
-				}
-				
-				newDiv.innerHTML = '<p>'+error+'</p>';
-				$form[ 0 ].appendChild( newDiv );
-			} else {
-				$form.unbind();
-				$form.submit();
-			}
+			ajaxForm($form, function() {
+				window.refreshFunction(window.currentCmsUrl);
+				$( "#editorForm").modal('hide'); 
+			});
 		}
 	} );
 };
@@ -136,6 +116,11 @@ function addEditListeners() {
 				success: function( data ) {
 						
 					$( "#editor" ).html( data );
+					if(/c-good/.test(url)) {
+						window.refreshFunction = loadGoodByCategory; 
+					} else {
+						window.refreshFunction = reloadContent;
+					}
 					
 					addFileChangeListener();
 					addPortionEditListener();
@@ -144,40 +129,6 @@ function addEditListeners() {
 			} );
 			
 		} );
-};
-
-function addToCartListener() {
-	$( ".tocart > input[type='submit']" ).click( function( e ) {
-		e.preventDefault();
-		var portionId = $( this ).parent().find( "input[name='portionId']" )[ 0 ];
-		var portionId = portionId.value;
-		
-		$.ajax( {
-			url: '../core/c-cart.php',
-			data: {
-				portionId: portionId,
-				method: "add"
-			},
-			success: function( data ) {
-				showCartTotalSum();
-			}
-		} );
-	} );
-};
-
-function showCartTotalSum() {
-
-	$.ajax({
-		url: "../core/c-cart.php",
-		data: {},
-		success: function( data ) {
-			if( data ) data = data.trim();
-			$( "#top_cart > span" ).html( data );
-		}
-	})
-		.fail( function( data ) {
-			alert( "Ошибка при выборе категории!" );
-		});
 };
 
 function loadGoodByCategory( url ) {
@@ -196,10 +147,11 @@ function loadGoodByCategory( url ) {
 			if( data ) data = data.trim().replace('&#65279;','');
 			$( "#menu" ).html( data );
 			
-			addToCartListener();
 			addEditListeners();
 			addSearchOrdersListener();
 			addPageListener();
+			
+			window.currentCmsUrl = url;
 		}
 	} );
 };
@@ -286,24 +238,31 @@ function addStateChangeListener() {
 	$( ".st-change" ).click( stateChange );
 };
 
+function reloadContent(url) {
+	$.ajax({
+			url: url,
+			success: function( data ) {
+			
+				$( "#cms_content" ).html( data ); 
+				$( ".sub-category" ).slideUp();
+				
+				addOnclickListener();
+				addEditListeners();
+				window.currentCmsUrl = url;
+			}
+		});
+};
+
 $( document ).ready( function() {
 	
 	counter();
 	
-	$.ajax( {
-		url: "../core/c-category.php",
-		data: { view: "list", cms: "true" },
-		success: function( data ) {
-			
-			$( "#categories" ).html( data ); 
-			
-			$( ".sub-category" ).slideUp();
-			
-			addOnclickListener();
-			addEditListeners();
-
-		}
-	} );
+	$(".content-link").click(function(event){
+		event.preventDefault();
+		var url = $(this)[0].href;
+		console.log("REQUESTING URL ", url);
+		reloadContent(url);
+	});
 	
 	loadGoodByCategory();
 	

@@ -107,7 +107,7 @@ class NewsView
         $check_menu_visible = $news->menu_visible == 1 ? 'checked' : null;
         ?>
         <div id='add_category_div' class='form'>
-            <form id='add_news_form' method='post' enctype='multipart/form-data' action='c-news.php'>
+            <form id='add_news_form' class='edit-form' method='post' enctype='multipart/form-data' action='c-news.php'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
@@ -135,7 +135,7 @@ class NewsView
                     <div class="form-group">
                         <label class='little'>Изображение</label>
                         <div>
-                            <img class='image_url' src='../img/<?= $news->image_url ?>'
+                            <img class='image_url' src='../img/<?= $news->image_url."?time=".time() ?>'
                                  alt='<?= $news->image_url ? $news->image_url : 'Нет изображения' ?>'>
                             <input type='file' name='image_url' value='Выбрать' class='btn btn-primary'>
                         </div>

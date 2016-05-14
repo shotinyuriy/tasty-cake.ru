@@ -36,7 +36,7 @@ class GoodView
                         <div class="good-item">
                             <div class="category-icon">
                                 <? if ($image_url) { ?>
-                                    <div class='menuimg'><img src='../menu-img/<?= $image_url ?>'/></div>
+                                    <div class='menuimg'><img src='../menu-img/<?= $image_url."?time=".time() ?>'/></div>
                                 <? } ?>
                             </div>
                             <div class="good-info">
@@ -44,7 +44,7 @@ class GoodView
                                     <p><?= $good->name ?></p>
                                 </div>
                                 <div>
-                                    <? if (strlen($good->description) > 64) { ?>
+                                    <? if (strlen($good->description) > 128) { ?>
                                         <p class="cart-good-description" data-toggle="tooltip" data-placement="right"
                                            title="<?= $good->description ?>">Состав: ...</p>
                                     <? } else { ?>
@@ -110,7 +110,7 @@ class GoodView
 
         <div id='add_good_div'>
 
-            <form id='add_good_form' method='post' enctype='multipart/form-data' action='c-good.php'>
+            <form id='add_good_form' class='edit-form' method='post' enctype='multipart/form-data' action='c-good.php' accept-charset="utf-8">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -140,10 +140,10 @@ class GoodView
                     <div class="form-group">
                         <label class='little'>Изображение</label>
                         <div>
-                            <img class='image_url' src='../menu-img/<?= $good->image_url ?>'
+                            <img class='image_url' src='../menu-img/<?= $good->image_url."?time=".time() ?>'
                                  alt='<?= $good->image_url ? $good->category->image_url : 'Нет изображения' ?>'
                                  width='197'>
-                            <input type='file' name='image_url' value='Выбрать' class='little'>
+                            <input type='file' name='image_url' value='Выбрать'>
                         </div>
                     </div>
                     <div class="form-group">
