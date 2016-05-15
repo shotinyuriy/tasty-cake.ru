@@ -77,7 +77,7 @@
 						</a>
 						<? if ($user_is_admin) { ?>
 							<a href='../core/c-category.php?method=edit&id=<?= $category -> id ?>' class='edit btn btn-success'>Изменить</a>
-							<a href='../core/c-category.php?method=delete&id=<?= $category -> id ?>' class='edit btn btn-danger'>Изменить</a>
+							<a href='../core/c-category.php?method=delete&id=<?= $category -> id ?>' class='edit btn btn-danger'>Удалить</a>
 						<? } else { ?>
 							<div></div>
 						<? } ?>
@@ -156,6 +156,38 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 							<button type="submit" class="btn btn-primary">Сохранить</button>
+						</div>
+					</form>
+			</div>
+			<?php
+			}
+
+			public static function confirm_delete($category)
+				{
+				if ($category == null) return;
+				$title = ($category->id == null ? 'Удалить' : 'Изменить') . ' категорию';
+				$check_menu_invisible = $category->menu_visible == null || $category->menu_visible == 0 ?
+				'checked' : null;
+				$check_menu_visible = $category->menu_visible == 1 ? 'checked' : null;
+			?>
+			<div id='add_category_div' class='form'>
+					<form id='delete_category_form' class='edit-form' method='post' action='c-category.php'  accept-charset='utf-8'>
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="editorFormLabel"><?= $title ?></h4>
+						</div>
+
+						<div class="modal-body">
+							<input type='hidden' name='method' value='delete'>
+							<input type='hidden' name='id' value='<?= $category -> id ?>'>
+							<input type='hidden' name='confirm' value='yes'>
+							<div class="form-group">
+								<p class="form-control-static">Удалить категорию <h2><?= $category->name ?></h2> и все ее подкатегории и продукты в ней?</p>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+							<button type="submit" class="btn btn-primary">Да</button>
 						</div>
 					</form>
 			</div>

@@ -177,7 +177,7 @@ class Goods
             $query = "SELECT "
                 . "g.`id`, g.`category_id`, g.`name`, g.`image_url`, g.`description`, g.`kcal_per_100g`, g.`menu_visible`, c.`name` AS c_name, c.`image_url` AS c_image_url  "
                 . "FROM `good` g JOIN `category` c ON c.`id` = g.`category_id` AND c.`menu_visible` = 1 WHERE g.`menu_visible` = 1 "
-                . " AND g.`name` like '%" . $text . "%' "
+                . " AND (g.`name` like '%" . $text . "%' OR g.`description` like '%". $text ."%'"
                 . " ORDER BY g.`sort_index`;";
 
             $result = DB::$mysqli->query($query);

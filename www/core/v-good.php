@@ -12,18 +12,20 @@ class GoodView
 
     public static function good_to_div($goods, $cms, $category_id = "")
     { ?>
-        <? if ($cms) { ?>
+        <? if ($cms) { 
+        	$good_item_classes = "col-lg-3 col-md-4 col-sm-6 col-xs-12"; ?>
             <? if ($_SESSION["role"] == User::ADMINISTRATOR) { ?>
             <div class="row">
                 <div class="col-lg-12">
                 <a href='../core/c-good.php?method=edit' class='edit btn btn-success'>Добавить товар</a>
                 <a href='../core/c-category.php?method=edit&category_id=<?= $category_id ?>' class='edit btn btn-success'>
                     Добавить подкатегорию</a>
-                <a href='../core/c-user.php?method=edit' class='edit btn btn-success'>Добавить пользователя</a>
                 </div>
             </div>
         <? } ?>
-    <? } ?>
+     <? }  else {
+        	$good_item_classes = "col-lg-4 col-md-6 col-sm-12 col-xs-12";
+        } ?>
         <? if ($goods) { ?>
         <div class="row">
             <? foreach ($goods as $good) {
@@ -32,7 +34,7 @@ class GoodView
                     //$portion = $good->get_first_portion();
                     $is_not_mv = $cms && $good->menu_visible == 0 ? "style='border-color: grey;'" : ""; ?>
 
-                    <div class="col-lg-4" <?= $is_not_mv ?>>
+                    <div class="<?= $good_item_classes ?>" <?= $is_not_mv ?>>
                         <div class="good-item">
                             <div class="category-icon">
                                 <? if ($image_url) { ?>

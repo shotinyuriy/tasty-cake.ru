@@ -94,7 +94,19 @@
 	}
 	
 	function delete() {
-		
+		if ($_SESSION["role"] == User::ADMINISTRATOR) {
+			if (isset($_REQUEST["id"])) {
+		        $id = StringUtils::convert($_REQUEST["id"], 'string');
+				if($id != null) {
+					if(isset($_REQUEST["confirm"]) && $_REQUEST["confirm"]=="yes") {
+						Categories::delete($id);
+					} else {
+						$category = Categories::get_category_by_id($id);
+						CategoryView::confirm_delete($category);
+					}
+				}
+		    }
+		}
 	}
 	
 	function cms() {

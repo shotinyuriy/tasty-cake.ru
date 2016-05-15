@@ -4,13 +4,40 @@ require_once("util.php");
 
 class UserView
 {
+	
+	public static function users_to_table($users) {
+		if(isset($users) && $users != null) { ?>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<a href='../core/c-user.php?method=edit' class='edit btn btn-success'>Добавить пользователя</a>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<table class='table'>
+				<tr>
+					<th>ID</th>
+					<th>Логин</th>
+					<th>Роль</th>
+				</tr>	
+			<? foreach($users as $user) { ?>
+				<tr>
+					<td><?= $user->id ?></td>
+					<td><?= $user->login ?></td>
+					<td><?= $user->role ?></td>
+				</tr>
+			<? } ?>
+			</table>
+			</div>
+			</div>
+		<? }
+	}
+	
     public static function edit_form($user)
     {
         if ($user == null) return;
         $title = ($user->id == null ? 'Добавить' : 'Изменить') . ' пользователя';
         ?>
         <div id='change_password' class='form'>
-            <form id='add_news_form' method='post' action='c-user.php'>
+            <form id='add_user_form'class='edit-form' method='post' action='c-user.php'>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>

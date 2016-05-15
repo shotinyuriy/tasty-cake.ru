@@ -137,6 +137,8 @@ class NewsView
                         <div>
                             <img class='image_url' src='../img/<?= $news->image_url."?time=".time() ?>'
                                  alt='<?= $news->image_url ? $news->image_url : 'Нет изображения' ?>'>
+                            <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
+                            <input type="hidden" name="MAX_FILE_SIZE" value="512000" />
                             <input type='file' name='image_url' value='Выбрать' class='btn btn-primary'>
                         </div>
                     </div>

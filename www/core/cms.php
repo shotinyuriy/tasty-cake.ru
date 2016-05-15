@@ -26,21 +26,24 @@ require_once("v-category.php");
             </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-        	<ul class="nav navbar-nav navbar-left">
+        	<ul id="cms-nav" class="nav navbar-nav navbar-left">
                 <? if ($_SESSION["role"] == User::ADMINISTRATOR) { ?>
-                    <li>
+                    <li class="activatable">
                     	<a class='content-link' href='../core/c-category.php?method=cms&view=list&cms=true'>
                     		Категории
                     	</a>
                     </li>
                     
                 <? } ?>
-                <li>
+                <li class="activatable">
                 	<a class='content-link' href='../core/c-order.php?method=filterForm'>Заказы</a>
                 </li>
                 <? if ($_SESSION["role"] == User::ADMINISTRATOR) { ?>
-                <li>
+                <li class="activatable">
                 	<a class='content-link' href='../core/c-news.php?method=newsList'>Новости</a>
+                </li>
+                <li class="activatable">
+                	<a class='content-link' href='../core/c-user.php?method=list'>Пользователи</a>
                 </li>
                 <? } ?>
 			</ul>

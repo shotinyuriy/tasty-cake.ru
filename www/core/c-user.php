@@ -12,6 +12,8 @@ if (isset($_REQUEST["method"])) {
         save();
     } elseif ($method == 'edit') {
         edit();
+    } elseif ($method == 'list') {
+        list_users();
     }
 }
 
@@ -69,6 +71,15 @@ function edit() {
     }
 
     UserView::edit_form( $user );
+}
+
+function list_users() {
+	if(isset($_SESSION["role"]) && $_SESSION["role"]==User::ADMINISTRATOR) {
+		$users = Users::get_all_users();
+		UserView::users_to_table($users);
+	} else {
+		ErrorView::print_error_message("У вас недостаточно прав на просмотр раздела!");
+	}
 }
 
 ?>

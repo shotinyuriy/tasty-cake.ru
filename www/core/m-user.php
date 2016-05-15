@@ -55,6 +55,31 @@ class Users {
 		}
 		return $last_id;
 	}
+	
+	public static function get_all_users() {
+		$query = "SELECT u.`role`, u.`id`, u.`login` FROM `user` u;";
+		
+		$users = array();
+		
+		$result = DB::$mysqli->query($query);
+		if (!DB::$mysqli->error) {
+			while ($row = $result->fetch_assoc()) {
+				$user = new User();
+				$user->role = $row["role"];
+				$user->login = $row["login"];
+				$user->id = $row["id"];
+				
+				$users[$user->id] = $user;
+			}
+			
+			return $users;
+		} else {
+			echo "<center>";
+			print_r(DB::$mysqli->error);
+			echo "</center>";
+			return null;
+		}
+	}
 
 	public static function find_user_by_login($login) {
 		$query = "SELECT u.`role`, u.`id`, u.`login` FROM `user` u WHERE u.`login` = '" . $login . "';";

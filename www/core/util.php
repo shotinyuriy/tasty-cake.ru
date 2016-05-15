@@ -144,6 +144,7 @@
 			} elseif( $_FILES["image_url"]["error"] > 0 ) {
 				$file_results .= 'No file Uploaded or invalid file';
 				$file_results .= 'Error Code: '.$_FILES["image_url"]["error"];
+				print_r($_FILES);
 			} else {
 				$file_results .= 'Upload: '.$_FILES["image_url"]["name"]."<br>"
 					.'Type: '.$_FILES["image_url"]["type"].'<br>'

@@ -297,5 +297,29 @@
 				
 				return $last_sort_index;
 		}
+		
+		public static function delete($id) {
+			if(isset($id) && $id != null) {
+				$queries = array();
+				$queries[] = "DELETE FROM `portion` WHERE `good_id` IN( SELECT `id` FROM `good` WHERE `category_id` = '$id' ); ";
+				$queries[] = "DELETE FROM `good` WHERE `category_id` = '$id'; ";
+				$queries[] = "DELETE FROM `category` WHERE `parent_category_id` = '$id'; ";
+				$queries[] = "DELETE FROM `category` WHERE `id` = '$id'; ";
+			
+				foreach($queries as $query) {
+					DB::$mysqli->query( $query );
+						
+					if( DB::$mysqli->error ) {
+						print_r( DB::$mysqli->error );
+						echo $query;
+					}
+				}
+				
+				return null;
+			} else {
+				echo "Ошибка при удалении категории! Категория не указана!";
+				return null;
+			}
+		}
 	}
 ?>

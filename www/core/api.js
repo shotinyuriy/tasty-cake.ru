@@ -55,6 +55,7 @@ function addCloseFormListener() {
 
 function addFileChangeListener() {
 	$( "input[name='image_url']" ).change( function( e ) {
+		console.log("IMAGE_URL ", $( this ));
 		var image_url = $( this ).val();
 		console.log( $( ".image_url" ) );
 		$( ".image_url" ).attr("src", "" );
@@ -96,7 +97,7 @@ function addSubmitValidationListener() {
 		
 		if( $form.length == 1 ) {
 			ajaxForm($form, function() {
-				window.refreshFunction(window.currentCmsUrl);
+				window.refreshFunction(window.currentRefreshUrl);
 				$( "#editorForm").modal('hide'); 
 			});
 		}
@@ -117,8 +118,10 @@ function addEditListeners() {
 						
 					$( "#editor" ).html( data );
 					if(/c-good/.test(url)) {
+						window.currentRefreshUrl = window.currentGoodUrl;
 						window.refreshFunction = loadGoodByCategory; 
 					} else {
+						window.currentRefreshUrl = window.currentCmsUrl;
 						window.refreshFunction = reloadContent;
 					}
 					
@@ -151,7 +154,7 @@ function loadGoodByCategory( url ) {
 			addSearchOrdersListener();
 			addPageListener();
 			
-			window.currentCmsUrl = url;
+			window.currentGoodUrl = url;
 		}
 	} );
 };
@@ -260,8 +263,9 @@ $( document ).ready( function() {
 	$(".content-link").click(function(event){
 		event.preventDefault();
 		var url = $(this)[0].href;
-		console.log("REQUESTING URL ", url);
 		reloadContent(url);
+		$("#cms-nav .activatable").removeClass("active");
+		$(this).parent().addClass("active");
 	});
 	
 	loadGoodByCategory();
