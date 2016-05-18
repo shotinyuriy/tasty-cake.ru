@@ -162,13 +162,9 @@
 			<?php
 			}
 
-			public static function confirm_delete($category)
-				{
+			public static function confirm_delete($category) {
 				if ($category == null) return;
-				$title = ($category->id == null ? 'Удалить' : 'Изменить') . ' категорию';
-				$check_menu_invisible = $category->menu_visible == null || $category->menu_visible == 0 ?
-				'checked' : null;
-				$check_menu_visible = $category->menu_visible == 1 ? 'checked' : null;
+				$title = 'Удалить категорию';
 			?>
 			<div id='add_category_div' class='form'>
 					<form id='delete_category_form' class='edit-form' method='post' action='c-category.php'  accept-charset='utf-8'>
@@ -193,6 +189,7 @@
 			</div>
 			<?php
 			}
-			}
-		?>
+}
+
+?>
 		

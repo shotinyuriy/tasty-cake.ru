@@ -72,15 +72,17 @@ class GoodView
                                     <? } ?>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <p class="amount"><?= round($portion->price, 2) . "р." ?></p>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-8">
                                         <form id='<?= $good->id ?>"_tocart' class='tocart' action='../core/c-cart.php'>
 
                                             <? if ($cms == true) { ?>
                                                 <a href='../core/c-good.php?method=edit&id=<?= $good->id ?>'
-                                                   class='edit btn btn-primary'>Изменить</a>
+                                                	class='edit btn btn-primary'>Изменить</a>
+                                                <a href='../core/c-good.php?method=delete&id=<?= $good->id ?>'
+                                                	class='edit btn btn-danger'>Удалить</a>
                                             <? } else {
                                                 if (isset($portion)) { ?>
                                                     <input type='hidden' name='portionId' value='<?= $portion->id ?>'>
@@ -243,6 +245,34 @@ class GoodView
         </div>
         <?php
     }
-}
+    
+    public static function confirm_delete($good) {
+				if ($good == null) return;
+				$title = 'Удалить товар';
+			?>
+			<div id='add_category_div' class='form'>
+					<form id='delete_good_form' class='edit-form' method='post' action='c-good.php'  accept-charset='utf-8'>
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="editorFormLabel"><?= $title ?></h4>
+						</div>
+
+						<div class="modal-body">
+							<input type='hidden' name='method' value='delete'>
+							<input type='hidden' name='id' value='<?= $good -> id ?>'>
+							<input type='hidden' name='confirm' value='yes'>
+							<div class="form-group">
+								<p class="form-control-static">Удалить продукт <h2><?= $good->name ?></h2>?</p>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+							<button type="submit" class="btn btn-primary">Да</button>
+						</div>
+					</form>
+			</div>
+			<?php
+			}
+	}
 
 ?>

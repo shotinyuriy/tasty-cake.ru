@@ -23,6 +23,8 @@ if (isset($_REQUEST["method"])) {
         edit();
     } elseif ($method == 'popular') {
         popular($goods_on_page, $cms);
+    } elseif ($method == 'delete') {
+        delete($goods_on_page, $cms);
     }
 } else {
     show_goods($goods_on_page, $cms);
@@ -116,6 +118,24 @@ function popular($goods_on_page, $cms) {
     }
 
     GoodView::good_to_div($goods, $cms);
+}
+
+function delete() {
+	if ($_SESSION["role"] == User::ADMINISTRATOR) {
+		if (isset($_REQUEST["id"])) {
+	        $id = StringUtils::convert($_REQUEST["id"], 'string');
+			if($id != null) {
+				if(isset($_REQUEST["confirm"]) && $_REQUEST["confirm"]=="yes") {
+					Goods::delete($id);
+				} else {
+					$good = Goods::get_good_by_id($id);
+					GoodView::confirm_delete($good);
+				}
+			}
+	    }
+	} else {
+		ErrorView::print_error_message("У вас недостаточно прав!");
+	}
 }
 
 function show_goods($goods_on_page, $cms)
